@@ -12,7 +12,7 @@ class DoublePend():
         self.ad2 = v2
         self.add1 = 0
         self.add2 = 0
-        self.g = 981
+        self.g = 200
     def update(self,t = 0.001):
         t1 = -0.5*self.g*np.sin(self.a2)
         t2 = -0.5*self.l1*(self.ad1**2)*np.sin(self.a1-self.a2)
