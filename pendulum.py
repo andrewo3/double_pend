@@ -12,7 +12,7 @@ class DoublePend():
         self.ad2 = v2
         self.add1 = 0
         self.add2 = 0
-        self.g = 981
+        self.g = 500
         self.E = None
         self.startE = None
     def update(self,t = 0.001):
@@ -45,11 +45,13 @@ class DoublePend():
         self.E = k1 + k2 + u1 + u2
         if self.startE is None:
             self.startE = self.E
+            print(f"total E: {self.startE}")
         else:
             #slightly inaccurate velocity correction to maintain total energy
             k = np.sqrt((self.startE - u1 - u2)/(k1+k2))
-            self.ad1 *= k
-            self.ad2 *= k
+            if not np.isnan(k) and not np.isinf(k):
+                self.ad1 *= k
+                self.ad2 *= k
         
         self.ad1 += self.add1 * t
         self.ad2 += self.add2 * t
