@@ -1,7 +1,7 @@
 import numpy as np
 
 class DoublePend():
-    def __init__(self,l1,l2,m1,m2,a1,a2,v1,v2):
+    def __init__(self,l1,l2,m1,m2,a1,a2,v1,v2,g=500):
         self.l1 = l1
         self.l2 = l2
         self.m1 = m1
@@ -12,7 +12,7 @@ class DoublePend():
         self.ad2 = v2
         self.add1 = 0
         self.add2 = 0
-        self.g = 500
+        self.g = g
         self.E = None
         self.startE = None
     def update(self,t = 0.001):

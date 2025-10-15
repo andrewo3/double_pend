@@ -1,5 +1,6 @@
 import pendulum
 import pygame
+import random
 import numpy as np
 import os
 from copy import deepcopy
@@ -25,7 +26,7 @@ def main():
     cwidth = WIDTH
     cheight = HEIGHT
     fullscreen = False
-    start = pendulum.DoublePend(133,266,1,2,0.000001,0.000001,0,0)
+    start = pendulum.DoublePend(133,266,1,2,0.01,0.01,0,0)
     dp = deepcopy(start)
 
     sim_acc = 2
@@ -39,6 +40,7 @@ def main():
     blur = True
     arial = pygame.font.SysFont('Arial',20)
     frame = pygame.Surface((cwidth,cheight),pygame.SRCALPHA)
+    energy_text = True
     while running:
         lines = [(cwidth//2,cheight//2)]
         lines.append((lines[-1][0] + dp.l1*np.sin(dp.a1), lines[-1][1] - dp.l1*np.cos(dp.a1)))
@@ -51,7 +53,8 @@ def main():
             window.blit(frame,(0,0))
         else:
             pygame.draw.lines(window,(255,255,255),False,lines,5)
-        window.blit(arial.render(f"Total Energy: {dp.E} J",True,(255,255,255)),(0,0))
+        if energy_text:
+            window.blit(arial.render(f"Total Energy: {dp.E} J",True,(255,255,255)),(0,0))
         pygame.display.update()
         ms = clock.tick(144)
         for m in range(sim_acc*speed*ms):
@@ -72,8 +75,12 @@ def main():
                     frame = pygame.Surface((cwidth,cheight),pygame.SRCALPHA)
                 elif event.key == pygame.K_r:
                     dp = deepcopy(start)
+                    dp.a1 = random.uniform(0,2*np.pi)
+                    dp.a2 = random.uniform(0,2*np.pi)
                 elif event.key == pygame.K_b:
                     blur ^= 1
+                elif event.key == pygame.K_e:
+                    energy_text ^= 1
 if __name__ == "__main__":
     main()
     quit()
